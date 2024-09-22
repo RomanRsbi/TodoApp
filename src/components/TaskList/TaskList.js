@@ -3,12 +3,20 @@ import React from 'react';
 import Task from '../Task/Task';
 import './TaskList.css'
 
-const TaskList = () => {
+const TaskList = ( {todos, onDeleted} ) => {
+
+	const el = todos.map((item) => {
+		return (
+			<Task 
+			{ ...item }
+			onDeleted={() => onDeleted(item.id)}
+			/>
+		);
+	});
+
 	return (
 		<ul className='todo-list'>
-			<Task label="Completed task" cl="completed"/>
-			<Task label="Editing task" cl="editing"/>
-			<Task label="Active task"/>
+			{ el }
 		</ul>
 	);
 };
