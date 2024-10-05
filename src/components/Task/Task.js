@@ -1,41 +1,52 @@
-import React from 'react';
+import React, {Component} from 'react';
 
 import './Task.css'
 
-export default class Task extends React.Component {
+export default class Task extends Component {
 
 	state = {
-		completed: false
-	}
+		label: ''
+	};
 
-	onCheckboxClick = () => {
-		this.setState((state) => {
-			return {
-				completed: !state.completed
-			};
+	onEditChange = (event) => {
+		this.setState({
+			label: event.target.value
 		});
-	}
+	};
 
+	onEditSubmit = (event) => {
+		if (event.key === 'Enter') {
+			if (this.state.label !== '') {
+				this.props.editSubmit(this.state.label);
+			};
+		}
+	};
+	
 	render() {
-		const { completed } = this.state;
-		let classNames = this.props.cl;
+		let classNames = this.props.className;
 
-		if (completed) {
-			classNames += ' completed';
+		if (this.props.completed && classNames === null) {
+			classNames = 'completed';
+		} else {
+			if (this.props.completed && classNames !== null) {
+				classNames += ' completed';
+			}
 		}
 
 		return (
-		<li key={ this.props.id } className={ classNames }>
+		<li className={ classNames } id={this.props.id}>
 		<div className="view">
-			<input className="toggle" type="checkbox" onClick={ this.onCheckboxClick }></input>
+			<input className="toggle" type="checkbox" onClick={ this.props.onCheckCompleted }></input>
 			<label>
 				<span className="description">{ this.props.label }</span>
 				<span className="created">created 5 minutes ago</span>
 			</label>
-			<button className="icon icon-edit"></button>
+			<button className="icon icon-edit" onClick={this.props.editTask}></button>
 			<button className="icon icon-destroy" onClick={this.props.onDeleted}></button>
 		</div>
-		<input type="text" className="edit" defaultValue='New task'></input>
+		<input type="text" className="edit" defaultValue={ this.props.label } 
+		onKeyDown={this.onEditSubmit}
+		onChange={this.onEditChange}></input>
 		</li>
 		);
 	};

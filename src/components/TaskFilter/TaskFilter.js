@@ -2,20 +2,19 @@ import React from 'react';
 
 import './TaskFilter.css'
 
-const TasksFilter = () => {
+export default function TasksFilter ({clickActive, buttonType}) {
+
 	return (
 		<ul className="filters">
 			<li>
-				<button className="selected">All</button>
+				<button onClick={(e) => {clickActive(e.target.textContent)}} className={buttonType === 'All' ? 'selected' : null}>All</button>
 			</li>
 			<li>
-				<button>Active</button>
+				<button onClick={(e) => {clickActive(e.target.textContent)}} className={buttonType === 'Active' ? 'selected' : null}>Active</button>
 			</li>
 			<li>
-				<button>Completed</button>
+				<button onClick={(e) => {clickActive(e.target.textContent)}} className={buttonType === 'Completed' ? 'selected' : null}>Completed</button>
 			</li>
 		</ul>
 	);
 };
-
-export default TasksFilter;
