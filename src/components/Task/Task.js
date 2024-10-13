@@ -5,8 +5,11 @@ import './Task.css';
 
 export default class Task extends Component {
   editSubmit = this.props.editSubmit;
+
   editTask = this.props.editTask;
+
   onCheckCompleted = this.props.onCheckCompleted;
+
   onDeleted = this.props.onDeleted;
 
   state = {
@@ -36,11 +39,9 @@ export default class Task extends Component {
   };
 
   timeRef = setInterval(() => {
-    this.setState(() => {
-      return {
-        data: new Date(),
-      };
-    });
+    this.setState(() => ({
+      data: new Date(),
+    }));
   }, 5000);
 
   render() {
@@ -48,22 +49,20 @@ export default class Task extends Component {
 
     if (this.props.completed && classNames === null) {
       classNames = 'completed';
-    } else {
-      if (this.props.completed && classNames !== null) {
-        classNames += ' completed';
-      }
+    } else if (this.props.completed && classNames !== null) {
+      classNames += ' completed';
     }
 
     return (
       <li className={classNames} id={this.props.id}>
         <div className="view">
-          <input className="toggle" type="checkbox" onClick={this.onCheckCompleted}></input>
+          <input className="toggle" type="checkbox" onClick={this.onCheckCompleted} />
           <label>
             <span className="description">{this.props.label}</span>
             <span className="created">{formatDistance(this.props.date, new Date(), { includeSeconds: true })}</span>
           </label>
-          <button className="icon icon-edit" onClick={this.editTask}></button>
-          <button className="icon icon-destroy" onClick={this.onDeleted}></button>
+          <button className="icon icon-edit" onClick={this.editTask} />
+          <button className="icon icon-destroy" onClick={this.onDeleted} />
         </div>
         <input
           type="text"
@@ -71,7 +70,7 @@ export default class Task extends Component {
           defaultValue={this.props.label}
           onKeyDown={this.onEditSubmit}
           onChange={this.onEditChange}
-        ></input>
+        />
       </li>
     );
   }

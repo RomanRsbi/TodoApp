@@ -15,27 +15,25 @@ export default class App extends Component {
 
   filterFn = (text = 'All') => {
     this.setState(({ taskData }) => {
-      let newArr = taskData.map((el) => {
+      const newArr = taskData.map((el) => {
         if (text === 'Active') {
           if (el.completed === true) {
             el.className = 'hidden';
             return el;
-          } else {
-            el.className = null;
-            return el;
           }
-        } else if (text === 'Completed') {
-          if (el.completed === false) {
-            el.className = 'hidden';
-            return el;
-          } else {
-            el.className = null;
-            return el;
-          }
-        } else {
           el.className = null;
           return el;
         }
+        if (text === 'Completed') {
+          if (el.completed === false) {
+            el.className = 'hidden';
+            return el;
+          }
+          el.className = null;
+          return el;
+        }
+        el.className = null;
+        return el;
       });
       return {
         taskData: newArr,
@@ -45,11 +43,9 @@ export default class App extends Component {
 
   clickActive = (typeName) => {
     this.filterFn(typeName);
-    this.setState(() => {
-      return {
-        buttonType: typeName,
-      };
-    });
+    this.setState(() => ({
+      buttonType: typeName,
+    }));
   };
 
   createTodoTask(label) {
@@ -121,9 +117,7 @@ export default class App extends Component {
 
   deleteAll = () => {
     this.setState(({ taskData }) => {
-      let newArr = taskData.filter((el) => {
-        return el.completed === false;
-      });
+      const newArr = taskData.filter((el) => el.completed === false);
       return {
         taskData: newArr,
       };
